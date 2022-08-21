@@ -38,4 +38,11 @@ class PostController extends Database{
         }
 
     }   
+
+
+    public function single_post( $data ){
+
+        $post_info = $this->connect()->query("SELECT * FROM posts WHERE id='$data'");
+        return mysqli_fetch_assoc($post_info );
+    }
 }

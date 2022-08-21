@@ -1,6 +1,15 @@
 <?php 
 require_once 'vendor/autoload.php';
 use App\classes\Database;
+use App\classes\PostController;
+
+$post = new PostController;
+if( isset( $_GET['post_id'] ) ){
+    $current_post_id = $_GET['post_id'];
+    $single_post = $post->single_post($current_post_id);
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
