@@ -18,6 +18,7 @@ require_once('template-parts/header.php'); ?>
                         <tr>
                           <th> # </th>
                           <th> Name </th>
+                          <th> Categories </th>
                           <th> Thumbnail </th>
                           <th> status </th>
                           <th> action </th>
@@ -25,39 +26,53 @@ require_once('template-parts/header.php'); ?>
                       </thead>
                       <tbody>
                         <?php 
-                        $cat_obj = new App\classes\Categories;
 
-                        $cats = $cat_obj->index();
+                        $post_obj = new App\classes\PostController;
+
+                        $posts = $post_obj->index();
+
+				
                      
                         $number = 1;
-                        foreach( $cats as $cat ):?>
+                        foreach( $posts as $post ):
+
+						 $categories = json_decode( $post['category_id'] );
+						?>
                           <tr>
                             <td> <?php echo $number++; ?> </td>
-                            <td> <?php echo $cat['name']; ?> </td>
+                            <td> <?php echo $post['title']; ?> </td>
+                            <td> 
+							<?php 
+							if( is_array( $categories) ):
+								foreach( $categories as $value ): ?>
+									<a href="#"><?php echo $value; ?></a>
+								<?php 
+								endforeach;
+							endif;	
+							?>
+							</td>
                             <td class="py-1">
-                              <img src="../uploads/categories/<?php echo $cat['thumbnail']; ?>" alt="image">
+                              <img src="../uploads/blog/<?php echo $post['thumbnail']; ?>" alt="image">
                             </td>
 
                             <td>
 								<?php
-								if( $cat['status'] == '1'):
+								if( $post['status'] == '1'):
 								?>
-                              		<a href="?status=<?php echo $cat['status']; ?>&id=<?php echo $cat['id']; ?>" class="btn btn-danger">Deactivate</a>  
+                              		<a href="?status=<?php echo $post['status']; ?>&id=<?php echo $post['id']; ?>" class="btn btn-danger">Deactivate</a>  
 								<?php 
 								else: ?>
-									<a href="?status=<?php echo $cat['status']; ?>&id=<?php echo $cat['id']; ?>" class="btn btn-success">Activate</a>
+									<a href="?status=<?php echo $post['status']; ?>&id=<?php echo $post['id']; ?>" class="btn btn-success">Activate</a>
 								<?php 
 								endif; ?>
                             </td>
                             <td> 
-                              <a href="category_edit.php?edit_id=<?php echo $cat['id']; ?>">Edit</a>
-                              <a href="?deleted_id=<?php echo $cat['id']; ?>">Delete</a>
+                              <a href="category_edit.php?edit_id=<?php echo $post['id']; ?>">Edit</a>
+                              <a href="?deleted_id=<?php echo $post['id']; ?>">Delete</a>
                             </td>
                           </tr>
                         <?php 
                         endforeach; ?>    
-
-                        
                       </tbody>
                     </table>
                   </div>

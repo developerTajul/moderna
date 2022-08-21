@@ -38,19 +38,19 @@ require_once('template-parts/header.php'); ?>
                         </div>
 
                         <div class="form-group">
-							<label for="categories">Categores : </label>
-							<?php 
-							$cats = $cat->index();
-							if( is_array( $cats ) ):	
-								foreach( $cats as $cat ):
-								?>
-									<div class="form-check form-check-flat">
-										<label class="form-check-label">
-										<input type="checkbox" name="cats[]" class="form-check-input" value="<?php echo $cat['slug']; ?>"><?php echo $cat['name']; ?><i class="input-helper"></i></label>
-									</div>
-								<?php 
-								endforeach; 
-							endif; ?>	
+                          <label for="categories">Categores : </label>
+                          <?php 
+                          $cats = $cat->index();
+                          if( is_array( $cats ) ):	
+                            foreach( $cats as $cat ):
+                            ?>
+                              <div class="form-check form-check-flat">
+                                <label class="form-check-label">
+                                <input type="checkbox" name="cats[]" class="form-check-input" value="<?php echo $cat['name']; ?>"><?php echo $cat['name']; ?><i class="input-helper"></i></label>
+                              </div>
+                            <?php 
+                            endforeach; 
+                          endif; ?>	
                         </div>
 
                         <button type="submit" class="btn btn-success mr-2" name="add_post">Submit</button>

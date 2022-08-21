@@ -35,8 +35,8 @@ require_once 'template-parts/header.php';
 						$user_info = $con->connect()->query("SELECT * FROM users WHERE id='$current_user_id'");
 						$user = mysqli_fetch_assoc( $user_info );
 
-						$categories = json_decode( $post['category_id'] );
-				 ?>
+
+					?>
 					<article>
 							<div class="post-image">
 								<div class="post-heading">
@@ -49,15 +49,7 @@ require_once 'template-parts/header.php';
 								<ul class="meta-post">
 									<li><i class="icon-calendar"></i><a href="#"><?php echo date('F d, Y', strtotime($post['created_at'])); ?></a></li>
 									<li><i class="icon-user"></i><a href="user.php?user_id=<?php echo $user['id']; ?>"><?php echo $user['fullname']; ?></a></li>
-									<li><i class="icon-folder-open"></i>
-									<?php 
-									foreach( $categories as $value ): 
-										$cat_slug = strtolower( implode('-', explode(' ', trim($value))));
-										?>
-										<a href="category.php?cat_slug=<?php echo $cat_slug; ?>"><?php echo $value; ?></a>
-									<?php 
-									endforeach; ?>		
-									</li>
+									<li><i class="icon-folder-open"></i><a href="#"> Blog</a></li>
 									<li><i class="icon-comments"></i><a href="#">4 Comments</a></li>
 								</ul>
 								<a href="single.php?post_id=<?php echo $post['id']; ?>" class="pull-right">Continue reading <i class="icon-angle-right"></i></a>

@@ -4,6 +4,14 @@ use App\classes\Database;
 
 
 class PostController extends Database{
+
+    public function index():mixed
+    {
+        $results = $this->connect()->query("SELECT * FROM posts");
+        $data =  $results->fetch_all(MYSQLI_ASSOC);
+        return $data;
+    }  
+
     public function add_post( $data ){
 
         $title          = $this->connect()->real_escape_string( trim($data['title']) );
@@ -11,6 +19,7 @@ class PostController extends Database{
         $excerpt        = $this->connect()->real_escape_string( trim($data['excerpt']) );
         $content        = $this->connect()->real_escape_string( trim($data['content']) );
         $categores      = json_encode($data['cats']);
+
 
         $current_user   = $_SESSION['id'];
         /**
@@ -24,7 +33,6 @@ class PostController extends Database{
         if( mysqli_num_rows($post_exists ) >= 1 ){
             echo "Category already exists";
         }else{
-        // mysqli_query($this->connect(), "INSERT INTO categories (name, slug) VALUES('$name', '$slug')");
             $this->connect()->query( "INSERT INTO posts (title, slug, content, excerpt, thumbnail, category_id, user_id) VALUES ('{$title}', '{$slug}', '{$content}', '{$excerpt}', '{$filename}', '{$categores}', '{$current_user}');" );
             header("Location: posts.php");
         }

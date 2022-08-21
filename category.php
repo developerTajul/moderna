@@ -36,7 +36,8 @@ require_once 'template-parts/header.php';
 						$user = mysqli_fetch_assoc( $user_info );
 
 						$categories = json_decode( $post['category_id'] );
-				 ?>
+
+					?>
 					<article>
 							<div class="post-image">
 								<div class="post-heading">
