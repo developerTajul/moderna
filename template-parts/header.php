@@ -9,18 +9,20 @@ if( isset( $_GET['post_id'] ) ){
     $single_post = $post->single_post($current_post_id);
 }
 
+/**
+ * Category wise posts
+ */
 if( isset( $_GET['cat_slug'] ) ){
     $current_post_slug = $_GET['cat_slug'];
     $cat_post = $post->category_post( $current_post_slug );
 }
 
-
+/**
+ * User wise Posts
+ */
 if( isset( $_GET['user_id'] ) ){
     $current_user_id = $_GET['user_id'];
     $user_posts = $post->user_wise_post($current_user_id); 
-    echo "<pre>";
-    print_r( $user_posts );
-    echo "</pre>";
 }
 
 ?>
