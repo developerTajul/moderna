@@ -23,10 +23,9 @@ require_once 'template-parts/header.php';
 		<div class="row">
 			<div class="col-lg-8">
 				<?php 
-				$posts = new App\classes\PostController;
-				$all_posts = $posts->index();
-				if( is_array( $all_posts ) ):
-					foreach( $all_posts as $post ):
+				
+				if( is_array( $user_posts ) ):
+					foreach( $user_posts as $post ):
 						/**
 						 * user info
 						 */
@@ -46,7 +45,7 @@ require_once 'template-parts/header.php';
                             <div class="bottom-article">
                                 <ul class="meta-post">
                                     <li><i class="icon-calendar"></i><a href="#"><?php echo date('F d, Y', strtotime($post['created_at'])); ?></a></li>
-                                    <li><i class="icon-user"></i><a href="user.php?user_id=<?php echo $user['id']; ?>"><?php echo $user['fullname']; ?></a></li>
+                                    <li><i class="icon-user"></i><?php echo $user['fullname']; ?></li>
                                     <li><i class="icon-folder-open"></i><a href="#"> Blog</a></li>
                                     <li><i class="icon-comments"></i><a href="#">4 Comments</a></li>
                                 </ul>

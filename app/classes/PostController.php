@@ -39,10 +39,35 @@ class PostController extends Database{
 
     }   
 
-
+    /**
+     * Single Post
+     *
+     * @param [type] $data
+     * @return void
+     */
     public function single_post( $data ){
-
-        $post_info = $this->connect()->query("SELECT * FROM posts WHERE id='$data'");
+        $post_info = $this->connect()->query("SELECT * FROM posts WHERE id='$data'" );
         return mysqli_fetch_assoc($post_info );
+    }
+
+
+    public function user_wise_post( $data ){
+        $user_all_posts = $this->connect()->query("SELECT * FROM posts WHERE user_id='$data'" );
+        return mysqli_fetch_all($user_all_posts, MYSQLI_ASSOC ); 
+    }
+
+    /**
+     * Categorywise Post
+     *
+     * @return void
+     */
+    public function category_post( $data ){
+        $this->connect()->query("SELECT * FROM posts WHERE id = ");
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+
+        // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE slug='$data'" );
+        // $cat_post = mysqli_fetch_assoc($cat_info);
     }
 }
