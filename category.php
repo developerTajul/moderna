@@ -24,7 +24,7 @@ require_once 'template-parts/header.php';
 			<div class="col-lg-8">
 				<?php 
 				$posts = new App\classes\PostController;
-				$all_posts = $posts->index();
+				$all_posts = $posts->category_post();
 				if( is_array( $all_posts ) ):
 					foreach( $all_posts as $post ):
 						/**

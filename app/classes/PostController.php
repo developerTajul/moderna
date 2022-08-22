@@ -62,12 +62,14 @@ class PostController extends Database{
      * @return void
      */
     public function category_post( $data ){
-        $this->connect()->query("SELECT * FROM posts WHERE id = ");
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
+        // $this->connect()->query("SELECT * FROM posts WHERE id = ");
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
 
-        // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE slug='$data'" );
-        // $cat_post = mysqli_fetch_assoc($cat_info);
+        $current_cat_slug = $data;
+
+        $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
+        return mysqli_fetch_all( $cat_info, MYSQLI_ASSOC ); 
     }
 }
