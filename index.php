@@ -27,6 +27,9 @@ require_once 'template-parts/header.php';
 				$all_posts = $posts->index();
 				if( is_array( $all_posts ) ):
 					foreach( $all_posts as $post ):
+
+
+
 						/**
 						 * user info
 						 */
@@ -36,6 +39,7 @@ require_once 'template-parts/header.php';
 						$user = mysqli_fetch_assoc( $user_info );
 
 						$categories = json_decode( $post['category_id'] );
+	
 				 ?>
 					<article>
 							<div class="post-image">

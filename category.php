@@ -25,6 +25,8 @@ require_once 'template-parts/header.php';
 				<?php 
 				$posts = new App\classes\PostController;
 				$all_posts = $posts->category_post();
+
+				
 				if( is_array( $all_posts ) ):
 					foreach( $all_posts as $post ):
 						/**

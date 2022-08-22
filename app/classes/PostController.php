@@ -52,7 +52,9 @@ class PostController extends Database{
 
 
     public function user_wise_post( $data ){
+
         $user_all_posts = $this->connect()->query("SELECT * FROM posts WHERE user_id='$data'" );
+
         return mysqli_fetch_all($user_all_posts, MYSQLI_ASSOC ); 
     }
 
@@ -66,10 +68,21 @@ class PostController extends Database{
         // echo "<pre>";
         // print_r($data);
         // echo "</pre>";
-
         $current_cat_slug = $data;
 
-        $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
-        return mysqli_fetch_all( $cat_info, MYSQLI_ASSOC ); 
+
+        $cats = $this->connect()->query("SELECT * FROM posts");
+        $cats_from_db =  mysqli_fetch_all( $cats, MYSQLI_ASSOC);
+        foreach( $cats_from_db as $post ){
+            $categories = json_decode( $post['category_id'] );
+            print_r($categories);
+            die();
+
+            $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
+            $result = mysqli_fetch_all( $cat_info, MYSQLI_ASSOC );
+            echo "<pre>";
+            var_dump($result);
+            echo "</pre>"; 
+        }
     }
 }
