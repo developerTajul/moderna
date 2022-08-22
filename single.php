@@ -12,7 +12,7 @@ $current_user_id = $single_post['user_id'];
 $user_info = $con->connect()->query("SELECT * FROM users WHERE id='$current_user_id'");
 $user = mysqli_fetch_assoc( $user_info );
 
-$categories = json_decode( $single_post['category_id'] );
+$categories = json_decode( $single_post['categories'] );
 ?>
 <!-- breadcrumb-area -->
 <section id="inner-headline">

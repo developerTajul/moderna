@@ -36,7 +36,7 @@ require_once('template-parts/header.php'); ?>
                         $number = 1;
                         foreach( $posts as $post ):
 
-						 $categories = json_decode( $post['category_id'] );
+						 $categories = json_decode( $post['categories'] );
 						?>
                           <tr>
                             <td> <?php echo $number++; ?> </td>

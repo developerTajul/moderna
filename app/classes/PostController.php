@@ -33,7 +33,7 @@ class PostController extends Database{
         if( mysqli_num_rows($post_exists ) >= 1 ){
             echo "Category already exists";
         }else{
-            $this->connect()->query( "INSERT INTO posts (title, slug, content, excerpt, thumbnail, category_id, user_id) VALUES ('{$title}', '{$slug}', '{$content}', '{$excerpt}', '{$filename}', '{$categores}', '{$current_user}');" );
+            $this->connect()->query( "INSERT INTO posts (title, slug, content, excerpt, thumbnail, categories, user_id) VALUES ('{$title}', '{$slug}', '{$content}', '{$excerpt}', '{$filename}', '{$categores}', '{$current_user}');" );
             header("Location: posts.php");
         }
 
@@ -64,25 +64,31 @@ class PostController extends Database{
      * @return void
      */
     public function category_post( $data ){
-        // $this->connect()->query("SELECT * FROM posts WHERE id = ");
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
+        // getting category slug from url
         $current_cat_slug = $data;
 
-
+        // getting category slug from databases
         $cats = $this->connect()->query("SELECT * FROM posts");
         $cats_from_db =  mysqli_fetch_all( $cats, MYSQLI_ASSOC);
-        foreach( $cats_from_db as $post ){
-            $categories = json_decode( $post['category_id'] );
-            print_r($categories);
-            die();
 
-            $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
-            $result = mysqli_fetch_all( $cat_info, MYSQLI_ASSOC );
+
+
+        foreach( $cats_from_db as $post ){
+            $cats_from_database = json_decode($post['category_id'] );
             echo "<pre>";
-            var_dump($result);
-            echo "</pre>"; 
+            print_r($cats_from_database);
+            echo "</pre>";
+            
+
+
+         
+
+            // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
+            // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id ='$current_cat_slug'" );
+            // $result = mysqli_fetch_all( $cat_info, MYSQLI_ASSOC );
+            // echo "<pre>";
+            // var_dump($result);
+            // echo "</pre>"; 
         }
     }
 }

@@ -38,7 +38,7 @@ require_once 'template-parts/header.php';
 						$user_info = $con->connect()->query("SELECT * FROM users WHERE id='$current_user_id'");
 						$user = mysqli_fetch_assoc( $user_info );
 
-						$categories = json_decode( $post['category_id'] );
+						$categories = json_decode( $post['categories'] );
 	
 				 ?>
 					<article>
