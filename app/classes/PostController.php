@@ -71,8 +71,6 @@ class PostController extends Database{
         $cats = $this->connect()->query("SELECT * FROM posts");
         $cats_from_db =  mysqli_fetch_all( $cats, MYSQLI_ASSOC);
 
-
-
         foreach( $cats_from_db as $post ){
             $cats_from_database = json_decode($post['categories'] );
             echo "<pre>";
@@ -80,15 +78,16 @@ class PostController extends Database{
             echo "</pre>";
             
 
+            $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE categories= in_array($current_cat_slug, $cats_from_database)" );
+
+            $result = mysqli_fetch_all( $cat_info, MYSQLI_ASSOC );
+            print_r($result);
+            die();
 
          
-
             // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id='$current_cat_slug'" );
             // $cat_info = $this->connect()->query( "SELECT * FROM posts WHERE category_id ='$current_cat_slug'" );
             // $result = mysqli_fetch_all( $cat_info, MYSQLI_ASSOC );
-            // echo "<pre>";
-            // var_dump($result);
-            // echo "</pre>"; 
         }
     }
 }
