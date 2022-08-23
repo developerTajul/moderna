@@ -74,7 +74,7 @@ class PostController extends Database{
 
 
         foreach( $cats_from_db as $post ){
-            $cats_from_database = json_decode($post['category_id'] );
+            $cats_from_database = json_decode($post['categories'] );
             echo "<pre>";
             print_r($cats_from_database);
             echo "</pre>";
