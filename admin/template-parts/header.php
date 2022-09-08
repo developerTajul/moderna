@@ -1,6 +1,11 @@
 <?php 
 session_start();
 require_once '../vendor/autoload.php';
+if( !is_user_logged_in() ){
+	header("location: login.php");
+}
+
+
 
 /**
  * Categories
@@ -29,6 +34,34 @@ if( isset( $_GET['status'] ) ){
   $cat->status_change($status, $current_id);
 }
 
+
+/**
+ * Tags
+ */
+$tag = new App\classes\Tags;
+if( isset( $_POST['add_tag'] ) ){
+  $tag->add_tag( $_POST );
+}
+
+if( isset( $_GET['tag_edit_id'] ) && $_GET['tag_edit_id'] != "" ){
+    $result = $tag->update($_GET['tag_edit_id']);
+}
+
+if( isset( $_POST['update_tag']) ){
+  $tag->update_tag( $_POST );
+}
+
+if( isset( $_GET['deleted_tag_id'] ) ){
+  $tag->destroy( $_GET['deleted_tag_id'] );
+}
+
+if( isset( $_GET['tag_status'] ) ){
+  $status = $_GET['tag_status'];
+  $current_id = $_GET['id'];
+
+  $tag->status_change($status, $current_id);
+}
+
 /*
 * Post Controller
 */
@@ -37,6 +70,15 @@ $post = new App\classes\PostController();
 if( isset( $_POST['add_post']) ){
   $post->add_post( $_POST );
 }
+
+if( isset( $_GET['post_id'] ) ){
+  $single_post = $post->edit_post($_GET['post_id']);
+}
+
+if( isset( $_POST['update_post'] ) ){
+  $post->update_post($_POST);
+}
+
 
 
 ?>

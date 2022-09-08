@@ -40,13 +40,29 @@ require_once('template-parts/header.php'); ?>
                         <div class="form-group">
                           <label for="categories">Categores : </label>
                           <?php 
-                          $cats = $cat->index();
-                          if( is_array( $cats ) ):	
-                            foreach( $cats as $cat ):
+                          $categories = $cat->index();
+                          if( is_array( $categories ) ):	
+                            foreach( $categories as $cat ):
                             ?>
                               <div class="form-check form-check-flat">
                                 <label class="form-check-label">
                                 <input type="checkbox" name="cats[]" class="form-check-input" value="<?php echo $cat['name']; ?>"><?php echo $cat['name']; ?><i class="input-helper"></i></label>
+                              </div>
+                            <?php 
+                            endforeach; 
+                          endif; ?>	
+                        </div>
+
+                        <div class="form-group">
+                          <label for="categories">Tags : </label>
+                          <?php 
+                          $post_tags = $tag->index();
+                          if( is_array( $post_tags ) ):	
+                            foreach( $post_tags as $post_tag ):
+                            ?>
+                              <div class="form-check form-check-flat">
+                                <label class="form-check-label">
+                                <input type="checkbox" name="tags[]" class="form-check-input" value="<?php echo $post_tag['name']; ?>"><?php echo $post_tag['name']; ?><i class="input-helper"></i></label>
                               </div>
                             <?php 
                             endforeach; 

@@ -13,22 +13,14 @@ class Categories extends Database{
     public function add_category( $data ):void
     { 
         /**
-         * procedural way
-         * $name = mysqli_real_escape_string($this->connect(),  trim($data['name']));
-         */   
-
-
-        /**
          * Category Thumbnail
          */
         $filename = $_FILES['thumbnail']['name'];
         $file_tmp_name = $_FILES['thumbnail']['tmp_name'];
         move_uploaded_file($file_tmp_name, '../uploads/categories/'.$filename);
 
-
         $name       = $this->connect()->real_escape_string( trim($data['name']) );
         $content    = $this->connect()->real_escape_string( trim($data['content']) );
-
 
         $slug = strtolower( implode('-', explode(' ', trim($name))));
         $category_exists = mysqli_query($this->connect(), "SELECT * FROM categories WHERE name = '$name'");
@@ -36,7 +28,6 @@ class Categories extends Database{
         if( mysqli_num_rows($category_exists ) >= 1 ){
             echo "Category already exists";
         }else{
-        // mysqli_query($this->connect(), "INSERT INTO categories (name, slug) VALUES('$name', '$slug')");
             $this->connect()->query( "INSERT INTO categories (name, slug, content, thumbnail) VALUES('$name', '$slug', '$content', '$filename')" );
             header("Location: categories.php");
         }
@@ -62,28 +53,53 @@ class Categories extends Database{
 
 
     public function update_cat( $data ){
+        /**
+         * Category Thumbnail
+         */
+        $filename = $_FILES['update_thumbnail']['name'];
+        $file_tmp_name = $_FILES['update_thumbnail']['tmp_name'];
+        move_uploaded_file($file_tmp_name, '../uploads/categories/'.$filename);
 
         $update_name = $this->connect()->real_escape_string( trim($data['update_name']) );
         $update_slug = strtolower( implode('-', explode(' ', trim($update_name))));
+        $update_content = $this->connect()->real_escape_string(trim( $data['update_content'] ));
 
-
-        $category_exists = mysqli_query($this->connect(), "SELECT * FROM categories WHERE name = '$update_name'");
+ 
 
         $current_update_id = $data['id'];
 
+    
+     
 
-        if( mysqli_num_rows($category_exists ) >= 1 ){
-            echo "No Changes Found";
+        if( $filename != '' ){
+            /**
+             * delete image from uploads folder
+             */
+            $old_img_replace = $this->connect()->query("SELECT * FROM categories WHERE id={$current_update_id}");
+            $replace_imge = mysqli_fetch_assoc($old_img_replace);
+            unlink('../uploads/categories/'.$replace_imge['thumbnail']);
+
+            $this->connect()->query("UPDATE categories SET name='$update_name', slug='$update_slug', content='$update_content', thumbnail='$filename'  WHERE id='$current_update_id'");
+            header("Location: categories.php");
         }else{
-            $this->connect()->query("UPDATE categories SET name='$update_name', slug='$update_slug' WHERE id='$current_update_id'");
+            $this->connect()->query("UPDATE categories SET name='$update_name', slug='$update_slug', content='$update_content'  WHERE id='$current_update_id'");
             header("Location: categories.php");
         }
+
+       
     }
 
     /**
      * Category Delete
      */
     public function destroy( $id ){
+
+        /**
+         * delete image from uploads folder
+         */
+        $old_img_replace = $this->connect()->query("SELECT * FROM categories WHERE id={$id}");
+        $replace_imge = mysqli_fetch_assoc($old_img_replace);
+        unlink('../uploads/categories/'.$replace_imge['thumbnail']);
 
         $this->connect()->query("DELETE FROM categories WHERE id='$id'");
         header("Location: categories.php");

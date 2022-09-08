@@ -1,6 +1,11 @@
 <?php 
 session_start();
 require_once '../vendor/autoload.php';
+
+if( is_user_logged_in() ){
+	header("location: index.php");
+}
+
 use App\classes\Login;
 $login = new Login();
 

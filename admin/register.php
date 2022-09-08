@@ -1,3 +1,16 @@
+<?php 
+session_start();
+require_once '../vendor/autoload.php';
+/**
+ * User
+ */
+$user = new App\classes\Login;
+if( isset( $_POST['reg_user'] ) ){
+  $user->register( $_POST );
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,11 +42,13 @@
           <div class="row w-100">
             <div class="col-lg-4 mx-auto">
               <h2 class="text-center mb-4">Register</h2>
+              <p><?php echo $user->success; ?></p>
               <div class="auto-form-wrapper">
-                <form action="#">
+              <form action="" method="POST" enctype="multipart/form-data">
+
                   <div class="form-group">
                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Username">
+                      <input type="text" class="form-control" name="fullname" placeholder="Your Full Name">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline"></i>
@@ -41,9 +56,10 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <div class="input-group">
-                      <input type="password" class="form-control" placeholder="Password">
+                      <input type="email" class="form-control" name="email" placeholder="Type Email Address">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline"></i>
@@ -51,9 +67,10 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <div class="input-group">
-                      <input type="password" class="form-control" placeholder="Confirm Password">
+                      <input type="text" class="form-control" name="username" placeholder="Your Username">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-check-circle-outline"></i>
@@ -61,18 +78,32 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group d-flex justify-content-center">
-                    <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" checked> I agree to the terms </label>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="password" class="form-control" name="password" placeholder="Password">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-check-circle-outline"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
+
                   <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Register</button>
+                    <div class="input-group">
+                      <input type="file" name="thumbnail" id="thumbnail" />
+                    </div>
                   </div>
+
+
+                  <div class="form-group">
+                    <button class="btn btn-primary submit-btn btn-block" name="reg_user">Register</button>
+                  </div>
+
                   <div class="text-block text-center my-3">
                     <span class="text-small font-weight-semibold">Already have and account ?</span>
-                    <a href="login.html" class="text-black text-small">Login</a>
+                    <a href="login.php" class="text-black text-small">Login</a>
                   </div>
                 </form>
               </div>

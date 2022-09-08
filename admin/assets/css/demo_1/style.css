@@ -748,3 +748,12 @@
     display: none; }
 
 /*# sourceMappingURL=style.css.map */
+
+
+input[type="file"] {
+	color: #cfd5db;
+	border: 1px solid #cfd5db;
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+}

@@ -12,16 +12,64 @@ class PostController extends Database{
         return $data;
     }  
 
+    public function edit_post( $data ){
+        $current_id = $data;
+        $posts = $this->connect()->query("SELECT * FROM posts WHERE id='$current_id'");
+        $posts = mysqli_fetch_assoc($posts);
+        return $posts;
+    }
+
+    public function update_post( $data ){
+        echo "<pre>";
+        print_r( $data );
+        print_r( $_FILES );
+        echo "</pre>";
+ 
+
+        /**
+         * Post Thumbnail
+         */
+        $filename = $_FILES['update_thumbnail']['name'];
+        $file_tmp_name = $_FILES['update_thumbnail']['tmp_name'];
+        move_uploaded_file($file_tmp_name, '../uploads/blog/'.$filename);
+
+        $update_title = $this->connect()->real_escape_string( trim($data['update_title']) );
+        $update_slug = strtolower( implode('-', explode(' ', trim($update_title))));
+        $update_excerpt = $this->connect()->real_escape_string(trim( $data['update_excerpt'] ));
+        $update_content = $this->connect()->real_escape_string(trim( $data['update_content'] ));
+
+        $current_update_id = $data['id'];
+
+        if( $filename != '' ){
+            /**
+             * delete image from uploads folder
+             */
+            $old_img_replace = $this->connect()->query("SELECT * FROM posts WHERE id={$current_update_id}");
+            $replace_imge = mysqli_fetch_assoc($old_img_replace);
+            unlink('../uploads/blog/'.$replace_imge['thumbnail']);
+
+            $this->connect()->query("UPDATE posts SET title='$update_title', slug='$update_slug', excerpt='$update_excerpt', content='$update_content', thumbnail='$filename'  WHERE id='$current_update_id'");
+            header("Location: posts.php");
+        }else{
+            $this->connect()->query("UPDATE posts SET title='$update_title', slug='$update_slug', excerpt='$update_excerpt', content='$update_content'  WHERE id='$current_update_id'");
+            header("Location: posts.php");
+        }
+    }
+
+
+
     public function add_post( $data ){
 
         $title          = $this->connect()->real_escape_string( trim($data['title']) );
         $slug           = strtolower( implode('-', explode(' ', trim($title))));
         $excerpt        = $this->connect()->real_escape_string( trim($data['excerpt']) );
         $content        = $this->connect()->real_escape_string( trim($data['content']) );
-        $categores      = json_encode($data['cats']);
+        $categories     = json_encode($data['cats']);
+        $tags           = json_encode($data['tags']);
 
 
         $current_user   = $_SESSION['id'];
+
         /**
          * Thumbnail
          */
@@ -33,7 +81,7 @@ class PostController extends Database{
         if( mysqli_num_rows($post_exists ) >= 1 ){
             echo "Category already exists";
         }else{
-            $this->connect()->query( "INSERT INTO posts (title, slug, content, excerpt, thumbnail, categories, user_id) VALUES ('{$title}', '{$slug}', '{$content}', '{$excerpt}', '{$filename}', '{$categores}', '{$current_user}');" );
+            $this->connect()->query( "INSERT INTO posts (title, slug, content, excerpt, thumbnail, cats, tags, user_id) VALUES ('{$title}', '{$slug}', '{$content}', '{$excerpt}', '{$filename}', '{$categories}', '{$tags}', '{$current_user}');" );
             header("Location: posts.php");
         }
 

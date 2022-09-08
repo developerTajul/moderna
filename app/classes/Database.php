@@ -12,7 +12,7 @@ class Database{
         $host       = "localhost";
         $username   = "root";
         $password   = "";
-        $dbname     = "tasnim";
+        $dbname     = "moderna";
         return new \mysqli($host, $username, $password, $dbname);
     }
 

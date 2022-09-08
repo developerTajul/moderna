@@ -11,14 +11,14 @@ require_once('template-parts/header.php'); ?>
         <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Post Edit</h4>
-                    <p class="card-description"> You can edit posts from here </p>
+                    <h4 class="card-title">Tags</h4>
+                    <p class="card-description"> You can add tags from here </p>
                     <table class="table table-striped">
                       <thead>
                         <tr>
                           <th> # </th>
+                          <th> Сategory Name </th>
                           <th> Name </th>
-                          <th> Categories </th>
                           <th> Thumbnail </th>
                           <th> status </th>
                           <th> action </th>
@@ -26,54 +26,39 @@ require_once('template-parts/header.php'); ?>
                       </thead>
                       <tbody>
                         <?php 
+                        $tag_obj = new App\classes\Tags;
 
-                        $post_obj = new App\classes\PostController;
-
-                        $posts = $post_obj->index();
-
-				
+                        $tags = $tag_obj->index();
                      
                         $number = 1;
-                        foreach( $posts as $post ):
-						 $categories = json_decode( $post['cats'] );
-						?>
+                        foreach( $tags as $tag ):?>
                           <tr>
                             <td> <?php echo $number++; ?> </td>
-                            <td> <?php echo $post['title']; ?> </td>
-                            <td> 
-							<?php 
-							if( is_array( $categories) ):
-								foreach( $categories as $value ): ?>
-									<a href="#"><?php echo $value; ?></a>
-								<?php 
-								endforeach;
-							endif;	
-							?>
-							</td>
-
-							
+                            <td> <?php echo $tag['cat_id']; ?> </td>
+                            <td> <?php echo $tag['name']; ?> </td>
                             <td class="py-1">
-                              <img src="../uploads/blog/<?php echo $post['thumbnail']; ?>" alt="image">
+                              <img src="../uploads/tags/<?php echo $tag['thumbnail']; ?>" alt="image">
                             </td>
-
                             <td>
 								<?php
-								if( $post['status'] == '1'):
+								if( $tag['status'] == '1'):
 								?>
-                              		<a href="?status=<?php echo $post['status']; ?>&id=<?php echo $post['id']; ?>" class="btn btn-danger">Deactivate</a>  
+                              		<a href="?tag_status=<?php echo $tag['status']; ?>&id=<?php echo $tag['id']; ?>" class="btn btn-danger">Deactivate</a>  
 								<?php 
 								else: ?>
-									<a href="?status=<?php echo $post['status']; ?>&id=<?php echo $post['id']; ?>" class="btn btn-success">Activate</a>
+									<a href="?tag_status=<?php echo $tag['status']; ?>&id=<?php echo $tag['id']; ?>" class="btn btn-success">Activate</a>
 								<?php 
 								endif; ?>
                             </td>
                             <td> 
-                              <a href="post_edit.php?post_id=<?php echo $post['id']; ?>">Edit</a>
-                              <a href="?post_deleted_id=<?php echo $post['id']; ?>">Delete</a>
+                              <a href="tag_edit.php?tag_edit_id=<?php echo $tag['id']; ?>">Edit</a>
+                              <a href="?deleted_tag_id=<?php echo $tag['id']; ?>">Delete</a>
                             </td>
                           </tr>
                         <?php 
                         endforeach; ?>    
+
+                        
                       </tbody>
                     </table>
                   </div>
